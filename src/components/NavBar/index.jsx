@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState} from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -8,8 +9,12 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { Link } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
+  
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -51,11 +56,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+export default function SearchAppBar({ characterFilter }) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-export default function SearchAppBar() {
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <Box sx={{ flexGrow: 1, marginBottom: "1.5rem" }}>
-      <AppBar position="static">
+    <Box sx={{ flexGrow: 1, marginBottom: '1.5rem' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#1f1e1e' }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -63,9 +77,36 @@ export default function SearchAppBar() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={handleMenuOpen}
           >
             <MenuIcon />
           </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+          >
+            <MenuItem onClick={handleMenuClose} sx={{ '&:hover': { backgroundColor: '#b3b2b1' } }}>
+              <Link to={"/"} style={{ textDecoration: 'none', color: 'inherit' }}>Pessoas</Link>
+            </MenuItem>
+
+            <MenuItem onClick={handleMenuClose} sx={{ '&:hover': { backgroundColor: '#b3b2b1' } }}>
+              <Link to={"/planets"} target='_blank' style={{ textDecoration: 'none', color: 'inherit' }}>Planets</Link>
+            </MenuItem>
+
+            <MenuItem onClick={handleMenuClose} sx={{ '&:hover': { backgroundColor: '#b3b2b1' } }}>
+              <Link to={"/starships"} target='_blank' style={{ textDecoration: 'none', color: 'inherit' }}>Starships</Link>
+            </MenuItem>
+
+          </Menu>
+          <Link to={"/"}>
+            <Box
+              component="img"
+              sx={{ width: 80, height: 70, marginRight: '1rem' }}
+              src="/assets/logo.svg"
+              alt="Star Wars Logo"
+            />
+          </Link>
           <Typography
             variant="h6"
             noWrap
@@ -74,7 +115,7 @@ export default function SearchAppBar() {
           >
             The Challange SWAPI
           </Typography>
-          <Search>
+          <Search characterFilter={characterFilter} onChange={(e) => characterFilter(e.target.value)}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
