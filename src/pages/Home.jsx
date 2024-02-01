@@ -115,7 +115,7 @@ export const Home = () => {
         >
           <Card
             sx={{
-              width: "600px",
+              maxWidth: 345,
               margin: "auto",
               marginTop: "20px",
               backgroundColor: "white",
@@ -125,11 +125,6 @@ export const Home = () => {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              gap: "16px",
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
             }}
           >
             <CardContent>
@@ -144,6 +139,18 @@ export const Home = () => {
                   {selectedCharacter.name}
                 </Typography>
               </Box>
+              <Typography variant="body2" color="text.secondary">
+                Birth Year: {selectedCharacter.birth_year}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Created: {selectedCharacter.created}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Edited {selectedCharacter.edited}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Eye Color: {selectedCharacter.height}
+              </Typography>
               <Typography variant="body2" color="text.secondary">
                 Height: {selectedCharacter.height}
               </Typography>

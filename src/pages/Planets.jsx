@@ -79,66 +79,63 @@ export function Planets() {
   if (!!planet)
     return (
       <>
-     <Navbar />
-      <Card
-      maxWidth="80vw"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          margin: "auto",
-          marginTop: "20px",
-        }}
-      >
-        <CardContent
-          style={{
+        <Navbar />
+        <Card
+          maxWidth="80vw"
+          sx={{
             display: "flex",
             flexDirection: "column",
-            gap: "4px",
             justifyContent: "center",
             alignItems: "center",
+            margin: "auto",
+            marginTop: "20px",
           }}
         >
-          <Typography gutterBottom variant="h5" component="div">
-            {planet.name}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            model: {planet.rotation_period}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            manufacturer: {planet.orbital_period} 
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            cost_in_credits: {planet.diameter}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            length: {planet.climate}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            max_atmosphering_speed: {planet.gravity}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            crew: {planet.terrain}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            passengers: {planet.surface_water}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            cargo_capacity: {planet.population}
-          </Typography>
-        </CardContent>
-        <Button
-          size="small"
-          onClick={() => {
-            navigate(-1);
-            setPlanet(null);
-          }}
-        >
-          Voltar
-        </Button>
-      </Card> 
-     </>
+          <CardContent
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "4px",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography gutterBottom variant="h5" component="div">
+              {planet.name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Climate: {planet.climate}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Created: {planet.created}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Diameter: {planet.diameter}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Gravity: {planet.gravity}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Orbital Period: {planet.orbital_period}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Population: {planet.population}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Terrain: {planet.terrain}
+            </Typography>
+          </CardContent>
+          <Button
+            size="small"
+            onClick={() => {
+              navigate(-1);
+              setPlanet(null);
+            }}
+          >
+            Voltar
+          </Button>
+        </Card>
+      </>
     );
   //multiplos planetas
   else
@@ -170,9 +167,9 @@ export function Planets() {
                 <Grid item xs={12} sm={6} md={6} lg={3} key={index}>
                   <ResultCard
                     name={planet.name}
-                    diameter={planet.diameter}
+                    population={planet.population}
                     climate={planet.climate}
-                    onClick={() => handleGoToHomeWorld(planet.url)}                  
+                    onClick={() => handleGoToHomeWorld(planet.url)}
                   />
                 </Grid>
               ))}

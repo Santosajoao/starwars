@@ -5,7 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-export default function ResultCard({ name, diameter, climate, onClick }) {
+export default function ResultCard({ name, population, climate, onClick }) {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardContent
@@ -15,7 +15,7 @@ export default function ResultCard({ name, diameter, climate, onClick }) {
           {name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Diameter: {diameter}
+          Population: {population}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           Climate: {climate}

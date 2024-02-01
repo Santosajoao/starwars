@@ -78,80 +78,83 @@ export function Starships() {
   //starship singular
   if (!!starship)
     return (
-     //colocar o result card aqui
-     <>
-     <Navbar />
-      <Card
-      maxWidth="80vw"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          margin: "auto",
-          marginTop: "20px",
-        }}
-      >
-        <CardContent
-          style={{
+      //colocar o result card aqui
+      <>
+        <Navbar />
+        <Card
+          maxWidth="80vw"
+          sx={{
             display: "flex",
             flexDirection: "column",
-            gap: "4px",
             justifyContent: "center",
             alignItems: "center",
+            margin: "auto",
+            marginTop: "20px",
           }}
         >
-          <Typography gutterBottom variant="h5" component="div">
-            {starship.name}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            model: {starship.model}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            manufacturer: {starship.manufacturer}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            cost_in_credits: {starship.cost_in_credits}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            length: {starship.length}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            max_atmosphering_speed: {starship.max_atmosphering_speed}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            crew: {starship.crew}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            passengers: {starship.passengers}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            cargo_capacity: {starship.cargo_capacity}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            consumables: {starship.consumables}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            hyperdrive_rating: {starship.hyperdrive_rating}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            MGLT: {starship.MGLT}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            starship_class: {starship.starship_class}
-          </Typography>
-        </CardContent>
-        <Button
-          size="small"
-          onClick={() => {
-            navigate(-1);
-            setStarship(null);
-          }}
-        >
-          Voltar
-        </Button>
-      </Card> 
-     </>
+          <CardContent
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "4px",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography gutterBottom variant="h5" component="div">
+              {starship.name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Model: {starship.model}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Manufacturer: {starship.manufacturer}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Cost in credits: {starship.cost_in_credits}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Length: {starship.length}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Max atmosphere speed: {starship.max_atmosphering_speed}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Crew: {starship.crew}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Passengers: {starship.passengers}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Pilots: {starship.cargo_capacity}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Consumables: {starship.consumables}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Hyperdrive Rating: {starship.hyperdrive_rating}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              MGLT: {starship.MGLT}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Max atmosphere speed: {starship.max_atmosphering_speed}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Starship class: {starship.starship_class}
+            </Typography>
+          </CardContent>
+          <Button
+            size="small"
+            onClick={() => {
+              navigate(-1);
+              setStarship(null);
+            }}
+          >
+            Voltar
+          </Button>
+        </Card>
+      </>
     );
   //multiplos starships
   else
@@ -184,8 +187,8 @@ export function Starships() {
                   <ResultCard
                     name={starship.name}
                     model={starship.model}
-                    manufacturer={starship.manufacturer} 
-                    onClick={() => handleGoToStarships(starship.url)}                  
+                    manufacturer={starship.manufacturer}
+                    onClick={() => handleGoToStarships(starship.url)}
                   />
                 </Grid>
               ))}
