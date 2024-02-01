@@ -18,7 +18,6 @@ import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
   const [characters, setCharacters] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
@@ -55,20 +54,6 @@ export const Home = () => {
     setPage(page);
   };
 
-  const characterFilter = (name) => {
-    const lowercaseName = name.toLowerCase(); // Converte para minúsculas
-    var filteredCharacters = [];
-    if (lowercaseName === "") {
-      getCharacters();
-    }
-    for (var i in characters) {
-      if (characters[i].name.toLowerCase().includes(lowercaseName)) {
-        filteredCharacters.push(characters[i]);
-      }
-    }
-    setCharacters(filteredCharacters);
-  };
-
   const handleGoToHomeWorld = (homeWorldUrl) => {
     const id = homeWorldUrl.split("/")[5];
     navigate(`/planets/${id}`);
@@ -83,17 +68,9 @@ export const Home = () => {
     getCharacters();
   }, [page]);
 
-  useEffect(() => {
-    setSearchTerm("");
-  }, []);
-
   return (
     <div>
-      <Navbar
-        characterFilter={characterFilter}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-      />
+      <Navbar />
       <Container
         maxWidth="false"
         style={{
