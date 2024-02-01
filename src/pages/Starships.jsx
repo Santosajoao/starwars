@@ -151,7 +151,7 @@ export function Starships() {
               setStarship(null);
             }}
           >
-            Voltar
+            Back
           </Button>
         </Card>
       </>

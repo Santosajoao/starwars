@@ -132,7 +132,7 @@ export function Planets() {
               setPlanet(null);
             }}
           >
-            Voltar
+            Back
           </Button>
         </Card>
       </>
