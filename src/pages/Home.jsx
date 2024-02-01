@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/NavBar/index.jsx";
-import ResultCard from "../components/ResultCard/index.jsx";
+import ResultCard from "../components/ResultCard/index-people.jsx";
 import {
   Box,
   Card,
@@ -114,17 +114,22 @@ export const Home = () => {
           onClose={() => setSelectedCharacter(null)}
         >
           <Card
-            sx={{ maxWidth: "70vw" }}
-            style={{
-              position: "absolute",
+            sx={{
+              width: "600px",
+              margin: "auto",
+              marginTop: "20px",
+              backgroundColor: "white",
+              borderRadius: "10px",
+              boxShadow: "0px 0px 10px 0px #000000",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "16px",
+              position: "fixed",
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              width: "70vw",
-              bgcolor: "background.paper",
-              border: "2px solid #000",
-              boxShadow: 24,
-              p: 4,
             }}
           >
             <CardContent>
@@ -159,14 +164,16 @@ export const Home = () => {
                   Total of starships: {selectedCharacter.starships.length}
                 </Typography>
               ) : (
-                "No starships available"
+                <Typography variant="body2" color="text.secondary">
+                  No starships available...
+                </Typography>
               )}
               <Box
                 style={{
                   display: "flex",
                   justifyContent: "center",
                   flexDirection: "column",
-                  alignItems: "start",
+                  alignItems: "center",
                 }}
               >
                 {selectedCharacter.starships.length > 0 &&
@@ -174,18 +181,23 @@ export const Home = () => {
                     <button
                       style={{
                         border: "none",
-                        backgroundColor: "transparent",
                         cursor: "pointer",
+                        transition: "background-color 0.3s ease",
+                        background: "none", // Remover o background
+                        display: "flex", // Para alinhar conteúdo no centro
+                        alignItems: "center", // Para alinhar verticalmente
+                        justifyContent: "center", // Para alinhar horizontalmente
+                        width: "100%", // Para ocupar toda a largura disponível
                       }}
                       onClick={() => handleGoToStarships(starship)}
                     >
                       <Typography
                         key={index}
                         variant="body2"
-                        color="text.secondary"
-                        style={{ marginLeft: "16px" }}
+                        color="#0c3db0"
+                        style={{ margin: "auto" }} // Centralizar o texto
                       >
-                        - Access {index + 1}º Starship
+                        Access {index + 1}º Starship
                       </Typography>
                     </button>
                   ))}
@@ -200,8 +212,8 @@ export const Home = () => {
               }}
             >
               <Typography
-                variant="h4"
-                color="text.secondary"
+                variant="body5"
+                color="black"
                 style={{ cursor: "pointer" }}
               >
                 Go to Homeworld

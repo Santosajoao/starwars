@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/NavBar/index.jsx";
+import ResultCard from "../components/ResultCard/index-planets.jsx";
 import {
   Box,
   Button,
@@ -77,68 +78,56 @@ export function Planets() {
   //planeta singular
   if (!!planet)
     return (
-      <div
-        style={{
+      <>
+     <Navbar />
+      <Card
+      maxWidth="80vw"
+        sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          alignItems: "between",
+          alignItems: "center",
+          margin: "auto",
+          marginTop: "20px",
         }}
       >
-        <Navbar />
-        <Card
-          sx={{
-            width: "90%",
-            height: "80%",
-            padding: "16px",
+        <CardContent
+          style={{
             display: "flex",
+            flexDirection: "column",
+            gap: "4px",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <CardContent
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "4px",
-            }}
-          >
-            <Box
-              style={{
-                width: "100%",
-                height: "fit-content",
-                backgroundColor: "lightgray",
-                border: "1px solid darkgray",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Typography variant="h6">name: {planet.name}</Typography>
-              <Typography variant="body1">
-                population:{planet.population}
-              </Typography>
-              <Typography variant="body2">climate: {planet.climate}</Typography>
-              <Typography variant="body2">
-                diameter: {planet.diameter}
-              </Typography>
-              <Typography variant="body2">gravity: {planet.gravity}</Typography>
-              <Typography variant="body2">
-                orbital_period: {planet.orbital_period}
-              </Typography>
-              <Typography variant="body2">
-                rotation_period: {planet.rotation_period}
-              </Typography>
-              <Typography variant="body2">
-                surface_water: {planet.surface_water}
-              </Typography>
-              <Typography variant="body2">terrain: {planet.terrain}</Typography>
-            </Box>
-          </CardContent>
-        </Card>
+          <Typography gutterBottom variant="h5" component="div">
+            {planet.name}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            model: {planet.rotation_period}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            manufacturer: {planet.orbital_period} 
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            cost_in_credits: {planet.diameter}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            length: {planet.climate}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            max_atmosphering_speed: {planet.gravity}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            crew: {planet.terrain}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            passengers: {planet.surface_water}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            cargo_capacity: {planet.population}
+          </Typography>
+        </CardContent>
         <Button
           size="small"
           onClick={() => {
@@ -146,9 +135,10 @@ export function Planets() {
             setPlanet(null);
           }}
         >
-          Go back
+          Voltar
         </Button>
-      </div>
+      </Card> 
+     </>
     );
   //multiplos planetas
   else
@@ -178,32 +168,12 @@ export function Planets() {
             <Grid container spacing={2}>
               {planets.map((planet, index) => (
                 <Grid item xs={12} sm={6} md={6} lg={3} key={index}>
-                  <Box
-                    style={{
-                      width: "100%",
-                      height: "fit-content",
-                      backgroundColor: "lightgray",
-                      border: "1px solid darkgray",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography variant="h6">name: {planet.name}</Typography>
-                    <Typography variant="body1">
-                      population:{planet.population}
-                    </Typography>
-                    <Typography variant="body2">
-                      climate: {planet.climate}
-                    </Typography>
-                    <Button
-                      size="small"
-                      onClick={() => handleGoToHomeWorld(planet.url)}
-                    >
-                      Learn More
-                    </Button>
-                  </Box>
+                  <ResultCard
+                    name={planet.name}
+                    diameter={planet.diameter}
+                    climate={planet.climate}
+                    onClick={() => handleGoToHomeWorld(planet.url)}                  
+                  />
                 </Grid>
               ))}
             </Grid>
