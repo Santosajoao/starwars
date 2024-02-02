@@ -12,7 +12,6 @@ import {
   Pagination,
   Skeleton,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +20,7 @@ export const Home = () => {
   const [characters, setCharacters] = useState([]);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [page, setPage] = useState(1);
+  const [searchResult, setSearchResult] = useState("");
   const [totalPages, setTotalPages] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -51,8 +51,26 @@ export const Home = () => {
     }
   };
 
+
+  // const serachCharacters = async () => {
+  //   try {
+  //     setLoading(true);
+  //     searchResult === handleSearch;
+  //     const response = await axios.get("https://swapi.dev/api/people/?search=${search}");
+  //     setSearchResult(response.data.results);
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handlePageChange = (page) => {
     setPage(page);
+  };
+
+  const handleSearch = (event) => {
+    setSearchResult(event.target.value);
   };
 
   const handleGoToHomeWorld = (homeWorldUrl) => {
@@ -71,7 +89,7 @@ export const Home = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar /> 
       <Container
         maxWidth="false"
         style={{
@@ -81,7 +99,10 @@ export const Home = () => {
           justifyContent: "between",
         }}
       >
-        {/* skeleton estilizar */}
+        <Typography  variant= "title-lg" style={{ marginBottom: "1rem", fontSize: "2rem" }}>
+          Characters
+        </Typography>
+        {/* skeleton */}
         {loading && (
           <Grid container spacing={2}>
             {Array.from({ length: 10 }).map((_, index) => (

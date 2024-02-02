@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHref } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -18,14 +18,22 @@ import ListItemText from "@mui/material/ListItemText";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import PublicIcon from "@mui/icons-material/Public";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import SearchIcon from "@mui/icons-material/Search";
+import { styled, alpha } from "@mui/material/styles";
+import InputBase from "@mui/material/InputBase";
 
 export default function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const isMobile = useMediaQuery("(max-width:600px)");
-
   const [state, setState] = React.useState({
     left: false,
+    searchOpen: false,
   });
+
+  const handleReloadPage = () => {
+    window.location.href = "/"; // Altera a localização para a rota inicial
+  };
+  
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -38,6 +46,29 @@ export default function NavBar() {
     setState({ ...state, [anchor]: open });
   };
 
+  const handleScroll = () => {
+    if (window.scrollY > 0) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleSearchToggle = () => {
+    setState({ ...state, searchOpen: !state.searchOpen });
+  };
+
+  const handleCloseSearch = () => {
+    setState({ ...state, searchOpen: false });
+  };
+
   const list = (anchor) => (
     <Box
       sx={{ width: 250 }}
@@ -46,7 +77,7 @@ export default function NavBar() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {[{ text: "People", link: "/" }].map((item, index) => (
+        {[{ text: "Characters", link: "/" }].map((item, index) => (
           <ListItem key={index} disablePadding>
             <ListItemButton component={Link} to={item.link}>
               <ListItemIcon>
@@ -89,20 +120,46 @@ export default function NavBar() {
     </Box>
   );
 
-  const handleScroll = () => {
-    if (window.scrollY > 0) {
-      setIsScrolled(true);
-    } else {
-      setIsScrolled(false);
-    }
-  };
+  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: "inherit",
+    width: "100%",
+    "& .MuiInputBase-input": {
+      padding: theme.spacing(1, 1, 1, 0),
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      transition: theme.transitions.create("width"),
+      [theme.breakpoints.up("sm")]: {
+        width: "12ch",
+        "&:focus": {
+          width: "20ch",
+        },
+      },
+    },
+  }));
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  const Search = styled("div")(({ theme }) => ({
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(1),
+      width: "auto",
+    },
+  }));
+
+  const SearchIconWrapper = styled("div")(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  }));
 
   return (
     <Box
@@ -123,11 +180,10 @@ export default function NavBar() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
-            onClick={toggleDrawer("left", true)} // Adicionado para abrir o Drawer
+            onClick={toggleDrawer("left", true)}
           >
             <MenuIcon />
           </IconButton>
-
           <Drawer
             anchor="left"
             open={state["left"]}
@@ -135,7 +191,7 @@ export default function NavBar() {
           >
             {list("left")}
           </Drawer>
-          <Link to={"/"}>
+          <Link to={"/"} onClick={handleReloadPage}>
             <Box
               component="img"
               sx={{ width: 60, height: 60, marginRight: "1rem" }}
@@ -145,14 +201,48 @@ export default function NavBar() {
           </Link>
           <Typography
             variant="h6"
-            noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "block", sm: "block" } }}
+            sx={{ flexGrow: 1, display: { xs: "flex", sm: "flex" } }}
           >
             The Challange SWAPI
           </Typography>
+          {isMobile ? (
+            <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              aria-label="open search"
+              sx={{ ml: 2 }}
+              onClick={handleSearchToggle}
+            >
+              <SearchIcon />
+            </IconButton>
+          ) : (
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+          )}
         </Toolbar>
       </AppBar>
+      <Drawer anchor="top" open={state.searchOpen} onClose={handleCloseSearch}>
+        <Toolbar>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ "aria-label": "search" }}
+            />
+          </Search>
+        </Toolbar>
+      </Drawer>
     </Box>
   );
 }

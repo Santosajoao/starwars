@@ -170,6 +170,9 @@ export function Starships() {
             justifyContent: "between",
           }}
         >
+           <Typography  variant= "title-lg" style={{ marginBottom: "1rem", fontSize: "2rem" }}>
+          Starships
+        </Typography>
           {loading && (
             <Grid container spacing={2}>
               {Array.from({ length: 10 }).map((_, index) => (
