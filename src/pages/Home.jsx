@@ -12,6 +12,8 @@ import {
   Pagination,
   Skeleton,
   Typography,
+  Button,
+  Stack,
 } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -51,7 +53,6 @@ export const Home = () => {
     }
   };
 
-
   // const serachCharacters = async () => {
   //   try {
   //     setLoading(true);
@@ -89,7 +90,7 @@ export const Home = () => {
 
   return (
     <div>
-      <Navbar /> 
+      <Navbar />
       <Container
         maxWidth="false"
         style={{
@@ -99,7 +100,10 @@ export const Home = () => {
           justifyContent: "between",
         }}
       >
-        <Typography  variant= "title-lg" style={{ marginBottom: "1rem", fontSize: "2rem" }}>
+        <Typography
+          variant="title-lg"
+          style={{ marginBottom: "1rem", fontSize: "2rem" }}
+        >
           Characters
         </Typography>
         {/* skeleton */}
@@ -207,28 +211,12 @@ export const Home = () => {
               >
                 {selectedCharacter.starships.length > 0 &&
                   selectedCharacter.starships.map((starship, index) => (
-                    <button
-                      style={{
-                        border: "none",
-                        cursor: "pointer",
-                        transition: "background-color 0.3s ease",
-                        background: "none", // Remover o background
-                        display: "flex", // Para alinhar conteúdo no centro
-                        alignItems: "center", // Para alinhar verticalmente
-                        justifyContent: "center", // Para alinhar horizontalmente
-                        width: "100%", // Para ocupar toda a largura disponível
-                      }}
-                      onClick={() => handleGoToStarships(starship)}
-                    >
-                      <Typography
-                        key={index}
-                        variant="body2"
-                        color="#0c3db0"
-                        style={{ margin: "auto" }} // Centralizar o texto
-                      >
+                    <>
+                      <Button onClick={() => handleGoToStarships(starship)} >
                         Access {index + 1}º Starship
-                      </Typography>
-                    </button>
+                      </Button>
+                      
+                    </>
                   ))}
               </Box>
             </CardContent>
@@ -240,13 +228,11 @@ export const Home = () => {
                 alignItems: "center",
               }}
             >
-              <Typography
-                variant="body5"
-                color="black"
-                style={{ cursor: "pointer" }}
-              >
-                Go to Homeworld
-              </Typography>
+              <Stack direction="row" spacing={2}>
+                <Button variant="contained">
+                  Go to Homeworld
+                </Button>
+              </Stack>
             </CardActions>
           </Card>
         </Modal>
