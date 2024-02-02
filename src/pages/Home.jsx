@@ -12,6 +12,7 @@ import {
   Pagination,
   Skeleton,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -240,9 +241,10 @@ export const Home = () => {
         }}
       >
         <Pagination
+          sx={{ width: "FitScreen" }}
           count={totalPages}
           page={page}
-          onChange={(_, page) => handlePageChange(page)}
+          onChange={(event, page) => handlePageChange(page)}
         />
       </Box>
     </div>
