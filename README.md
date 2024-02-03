@@ -1,6 +1,6 @@
 # Star Wars API Consumer
 
-Este projeto React tem como objetivo consumir a API SWAPI (Star Wars API), oferecendo ao usuário informações detalhadas sobre personagens do universo Star Wars. Desenvolvido com React e estilizado utilizando Material-UI para uma interface moderna e responsiva.
+Este projeto React tem como objetivo consumir a API SWAPI (Star Wars API), oferecendo ao usuário informações detalhadas sobre personagens do universo Star Wars.
 
 ## Índice
 
