@@ -1,71 +1,60 @@
-# Getting Started with Create React App
+# Star Wars API Consumer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\
-Visit it : [https://starwars-jet.vercel.app/](https://starwars-jet.vercel.app/)
+Este projeto React tem como objetivo consumir a API SWAPI (Star Wars API), oferecendo ao usuário informações detalhadas sobre personagens do universo Star Wars.
 
-## Available Scripts
+Confira: [Link do deploy](https://starwars-jet.vercel.app/)
 
-In the project directory, you can run:
+## Índice
 
-### `npm start`
+- [Instalação](#instalação)
+- [Como Usar](#como-usar)
+- [Exemplos](#exemplos)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Instalação
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Para utilizar este projeto, siga os passos abaixo:
 
-### `npm test`
+1. Clone este repositório em sua máquina:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    ```bash
+    git clone https://github.com/Santosajoao/starwars.git
+    ```
 
-### `npm run build`
+2. Navegue até o diretório do projeto:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    ```bash
+    cd starwars
+    ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. Instale as dependências utilizando o npm:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    ```bash
+    npm install
+    ```
 
-### `npm run eject`
+4. Inicie o servidor local:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    ```bash
+    npm start
+    ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Como Usar
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Após a instalação, abra o navegador e acesse [http://localhost:3000](http://localhost:3000) para visualizar a aplicação.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Selecione um personagem que estiver aparecendo na sua tela ou utilize a barra de pesquisa na parte superior para buscar personagens.
+- Clique em um personagem para ver detalhes, incluindo informações sobre sua homeworld e starships.
 
-## Learn More
+## Exemplos
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Funcionalidades do projeto
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Listagem de Personagens
+- Detalhes de um Personagem
+- Navegação para Homeworld
+- Acesso às Starships
 
-### Code Splitting
+## 🛠️ Construído com
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* [React](https://react.dev/)
+* [Material UI](https://mui.com/)
