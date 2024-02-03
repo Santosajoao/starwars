@@ -51,3 +51,8 @@ Funcionalidades do projeto
 - Detalhes de um Personagem
 - Navegação para Homeworld
 - Acesso às Starships
+
+## 🛠️ Construído com
+
+* [React](https://react.dev/)
+* [Material UI](https://mui.com/)
