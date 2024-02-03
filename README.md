@@ -15,13 +15,13 @@ Para utilizar este projeto, siga os passos abaixo:
 1. Clone este repositório em sua máquina:
 
     ```bash
-    git clone https://github.com/seu-usuario/seu-projeto.git
+    git clone https://github.com/Santosajoao/starwars.git
     ```
 
 2. Navegue até o diretório do projeto:
 
     ```bash
-    cd seu-projeto
+    cd starwars
     ```
 
 3. Instale as dependências utilizando o npm:
