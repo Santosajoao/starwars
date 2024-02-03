@@ -36,8 +36,10 @@ export function Starships() {
   };
 
   const calcPagination = (count, length) => {
-    const totalPages = Math.ceil(count / length);
-    setTotalPages(totalPages);
+    if (page === 1) {
+      const totalPages = Math.ceil(count / length);
+      setTotalPages(totalPages);
+    }
   };
 
   const getStarships = async (search) => {
@@ -95,18 +97,16 @@ export function Starships() {
         setLoading(false);
       }
     };
-
     if (id) getStarship();
   }, [id]);
 
   useEffect(() => {
-    getStarships();
+    getStarships(search);
   }, [page]);
 
   //starship singular
   if (!!starship)
     return (
-      //colocar o result card aqui
       <>
         <Navbar setSearch={handleSearch} search={search} />
         <Card

@@ -29,8 +29,10 @@ export const Home = () => {
   const debounceTimeout = useRef(null);
 
   const calcPagination = (count, length) => {
-    const totalPages = Math.ceil(count / length);
-    setTotalPages(totalPages);
+    if (page === 1) {
+      const totalPages = Math.ceil(count / length);
+      setTotalPages(totalPages);
+    }
   };
 
   const getCharacters = async (search) => {
@@ -93,6 +95,7 @@ export const Home = () => {
   }, [page]);
 
   return (
+    // multiplos characters
     <div>
       <Navbar setSearch={handleSearch} search={search} />
       <Container
@@ -119,7 +122,6 @@ export const Home = () => {
             ))}
           </Grid>
         )}
-        {/* melhorar estilziação dos cards abaixo */}
         {!loading && characters.length > 0 && (
           <Grid container spacing={2}>
             {characters.map((character, index) => (
@@ -135,8 +137,7 @@ export const Home = () => {
           </Grid>
         )}
       </Container>
-
-      {/* melhorar estilziação modal */}
+      {/* modal character selecionado */}
       {selectedCharacter && (
         <Modal
           open={!!selectedCharacter}

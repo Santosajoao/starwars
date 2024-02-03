@@ -36,8 +36,10 @@ export function Planets() {
   };
 
   const calcPagination = (count, length) => {
-    const totalPages = Math.ceil(count / length);
-    setTotalPages(totalPages);
+    if (page === 1) {
+      const totalPages = Math.ceil(count / length);
+      setTotalPages(totalPages);
+    }
   };
 
   const getPlanets = async (search) => {
@@ -57,7 +59,7 @@ export function Planets() {
           calcPagination(data.count, data.results.length);
         } else {
           const { data } = await axios.get(
-            `https://swapi.dev/api/planets?page=${page}`
+            `https://swapi.dev/api/planets/?page=${page}`
           );
 
           setPlanets(data.results);
@@ -96,17 +98,17 @@ export function Planets() {
         setLoading(false);
       }
     };
-
     if (id) getPlanet();
   }, [id]);
 
   useEffect(() => {
-    if (!id) getPlanets();
+    if (!id) getPlanets(search);
   }, [page]);
 
   if (!!planet)
     return (
       <>
+        {/* single planet  */}
         <Navbar setSearch={handleSearch} search={search} />
         <Card
           maxWidth="80vw"
