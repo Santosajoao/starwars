@@ -2,6 +2,8 @@
 
 Este projeto React tem como objetivo consumir a API SWAPI (Star Wars API), oferecendo ao usuário informações detalhadas sobre personagens do universo Star Wars.
 
+Confira: [Link do deploy](https://starwars-jet.vercel.app/)
+
 ## Índice
 
 - [Instalação](#instalação)
