@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/NavBar/index.jsx";
 import {
@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import ResultCard from "../components/ResultCard/index-starships.jsx";
+import axios from "axios";
 
 export function Starships() {
   const { id } = useParams();
@@ -22,6 +23,8 @@ export function Starships() {
   const [totalPages, setTotalPages] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const debounceTimeout = useRef(null);
+  const [search, setSearch] = useState("");
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -32,39 +35,60 @@ export function Starships() {
     navigate(`/starships/${id}`);
   };
 
-  useEffect(() => {
-    const getStarship = async () => {
-      try {
-        const response = await fetch(`https://swapi.dev/api/starships/${id}/`);
-        const data = await response.json();
-        setStarship(data);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
+  const calcPagination = (count, length) => {
+    const totalPages = Math.ceil(count / length);
+    setTotalPages(totalPages);
+  };
 
-    if (id) getStarship();
-  }, [id]);
-
-  useEffect(() => {
-    const getStarships = async () => {
-      try {
-        setLoading(true);
+  const getStarships = async (search) => {
+    try {
+      setLoading(true);
+      if (!!search && search.length > 0) {
+        const params = `?search=${search}${page === 1 ? "" : `&page=${page}`} `;
+        const { data } = await axios.get(
+          `https://swapi.dev/api/starships/${params}`
+        );
+        setStarships(data.results);
+        calcPagination(data.count, data.results.length);
+      } else {
         if (page === 1) {
-          const response = await fetch(`https://swapi.dev/api/starships`);
-          const data = await response.json();
-          if (!totalPages) {
-            const totalPages = Math.ceil(data.count / data.results.length);
-            setTotalPages(totalPages);
-          }
+          const { data } = await axios.get("https://swapi.dev/api/starships/");
           setStarships(data.results);
+          calcPagination(data.count, data.results.length);
         } else {
-          const response = await fetch(
+          const { data } = await axios.get(
             `https://swapi.dev/api/starships/?page=${page}`
           );
-          const data = await response.json();
+
           setStarships(data.results);
         }
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = (value) => {
+    setSearch(value);
+    setPage(1);
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+    }
+    debounceTimeout.current = setTimeout(() => {
+      getStarships(value);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    const getStarship = async () => {
+      setLoading(true);
+      try {
+        const { data } = await axios.get(
+          `https://swapi.dev/api/starships/${id}/`
+        );
+        setStarship(data);
       } catch (error) {
         console.error("Error:", error);
       } finally {
@@ -72,6 +96,10 @@ export function Starships() {
       }
     };
 
+    if (id) getStarship();
+  }, [id]);
+
+  useEffect(() => {
     getStarships();
   }, [page]);
 
@@ -80,7 +108,7 @@ export function Starships() {
     return (
       //colocar o result card aqui
       <>
-        <Navbar />
+        <Navbar setSearch={handleSearch} search={search} />
         <Card
           maxWidth="80vw"
           sx={{
@@ -160,7 +188,7 @@ export function Starships() {
   else
     return (
       <>
-        <Navbar />
+        <Navbar setSearch={handleSearch} search={search} />
         <Container
           maxWidth="false"
           style={{
@@ -170,9 +198,12 @@ export function Starships() {
             justifyContent: "between",
           }}
         >
-           <Typography  variant= "title-lg" style={{ marginBottom: "1rem", fontSize: "2rem" }}>
-          Starships
-        </Typography>
+          <Typography
+            variant="title-lg"
+            style={{ marginBottom: "1rem", fontSize: "2rem" }}
+          >
+            Starships
+          </Typography>
           {loading && (
             <Grid container spacing={2}>
               {Array.from({ length: 10 }).map((_, index) => (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../components/NavBar/index.jsx";
 import ResultCard from "../components/ResultCard/index-people.jsx";
 import {
@@ -22,29 +22,39 @@ export const Home = () => {
   const [characters, setCharacters] = useState([]);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [page, setPage] = useState(1);
-  const [searchResult, setSearchResult] = useState("");
+  const [search, setSearch] = useState("");
   const [totalPages, setTotalPages] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const debounceTimeout = useRef(null);
 
-  const getCharacters = async () => {
+  const calcPagination = (count, length) => {
+    const totalPages = Math.ceil(count / length);
+    setTotalPages(totalPages);
+  };
+
+  const getCharacters = async (search) => {
     try {
       setLoading(true);
-      if (page === 1) {
-        const response = await axios.get("https://swapi.dev/api/people/");
-        setCharacters(response.data.results);
-        if (!totalPages) {
-          const totalPages = Math.ceil(
-            response.data.count / response.data.results.length
-          );
-          setTotalPages(totalPages);
-        }
-      } else {
-        const response = await axios.get(
-          `https://swapi.dev/api/people/?page=${page}`
+      if (!!search && search.length > 0) {
+        const params = `?search=${search}${page === 1 ? "" : `&page=${page}`} `;
+        const { data } = await axios.get(
+          `https://swapi.dev/api/people/${params}`
         );
+        setCharacters(data.results);
+        calcPagination(data.count, data.results.length);
+      } else {
+        if (page === 1) {
+          const { data } = await axios.get("https://swapi.dev/api/people/");
+          setCharacters(data.results);
+          calcPagination(data.count, data.results.length);
+        } else {
+          const { data } = await axios.get(
+            `https://swapi.dev/api/people/?page=${page}`
+          );
 
-        setCharacters(response.data.results);
+          setCharacters(data.results);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -53,25 +63,19 @@ export const Home = () => {
     }
   };
 
-  // const serachCharacters = async () => {
-  //   try {
-  //     setLoading(true);
-  //     searchResult === handleSearch;
-  //     const response = await axios.get("https://swapi.dev/api/people/?search=${search}");
-  //     setSearchResult(response.data.results);
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const handleSearch = (value) => {
+    setSearch(value);
+    setPage(1);
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+    }
+    debounceTimeout.current = setTimeout(() => {
+      getCharacters(value);
+    }, 1000);
+  };
 
   const handlePageChange = (page) => {
     setPage(page);
-  };
-
-  const handleSearch = (event) => {
-    setSearchResult(event.target.value);
   };
 
   const handleGoToHomeWorld = (homeWorldUrl) => {
@@ -85,12 +89,12 @@ export const Home = () => {
   };
 
   useEffect(() => {
-    getCharacters();
+    getCharacters(search);
   }, [page]);
 
   return (
     <div>
-      <Navbar />
+      <Navbar setSearch={handleSearch} search={search} />
       <Container
         maxWidth="false"
         style={{
@@ -106,7 +110,6 @@ export const Home = () => {
         >
           Characters
         </Typography>
-        {/* skeleton */}
         {loading && (
           <Grid container spacing={2}>
             {Array.from({ length: 10 }).map((_, index) => (
@@ -141,7 +144,7 @@ export const Home = () => {
         >
           <Card
             sx={{
-              maxWidth: 345,
+              maxWidth: "70vw",
               margin: "auto",
               marginTop: "20px",
               backgroundColor: "white",
@@ -212,10 +215,9 @@ export const Home = () => {
                 {selectedCharacter.starships.length > 0 &&
                   selectedCharacter.starships.map((starship, index) => (
                     <>
-                      <Button onClick={() => handleGoToStarships(starship)} >
+                      <Button onClick={() => handleGoToStarships(starship)}>
                         Access {index + 1}º Starship
                       </Button>
-                      
                     </>
                   ))}
               </Box>
@@ -229,9 +231,7 @@ export const Home = () => {
               }}
             >
               <Stack direction="row" spacing={2}>
-                <Button variant="contained">
-                  Go to Homeworld
-                </Button>
+                <Button variant="contained">Go to Homeworld</Button>
               </Stack>
             </CardActions>
           </Card>

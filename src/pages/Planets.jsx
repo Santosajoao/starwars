@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/NavBar/index.jsx";
 import ResultCard from "../components/ResultCard/index-planets.jsx";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -21,7 +22,9 @@ export function Planets() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const debounceTimeout = useRef(null);
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -32,39 +35,61 @@ export function Planets() {
     navigate(`/planets/${id}`);
   };
 
+  const calcPagination = (count, length) => {
+    const totalPages = Math.ceil(count / length);
+    setTotalPages(totalPages);
+  };
+
+  const getPlanets = async (search) => {
+    try {
+      setLoading(true);
+      if (!!search && search.length > 0) {
+        const params = `?search=${search}${page === 1 ? "" : `&page=${page}`} `;
+        const { data } = await axios.get(
+          `https://swapi.dev/api/planets${params}`
+        );
+        setPlanets(data.results);
+        calcPagination(data.count, data.results.length);
+      } else {
+        if (page === 1) {
+          const { data } = await axios.get("https://swapi.dev/api/planets");
+          setPlanets(data.results);
+          calcPagination(data.count, data.results.length);
+        } else {
+          const { data } = await axios.get(
+            `https://swapi.dev/api/planets?page=${page}`
+          );
+
+          setPlanets(data.results);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = (value) => {
+    setSearch(value);
+    setPage(1);
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+    }
+    debounceTimeout.current = setTimeout(() => {
+      getPlanets(value);
+    }, 1000);
+  };
+
   useEffect(() => {
     const getPlanet = async () => {
       try {
-        const response = await fetch(`https://swapi.dev/api/planets/${id}/`);
-        const data = await response.json();
-        setPlanet(data);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    if (id) getPlanet();
-  }, [id]);
-
-  useEffect(() => {
-    const getPlanets = async () => {
-      try {
         setLoading(true);
-        if (page === 1) {
-          const response = await fetch(`https://swapi.dev/api/planets`);
-          const data = await response.json();
-          if (!totalPages) {
-            const totalPages = Math.ceil(data.count / data.results.length);
-            setTotalPages(totalPages);
-          }
-          setPlanets(data.results);
-        } else {
-          const response = await fetch(
-            `https://swapi.dev/api/planets/?page=${page}`
-          );
-          const data = await response.json();
-          setPlanets(data.results);
-        }
+        const { data } = await axios.get(
+          `https://swapi.dev/api/planets/${id}/`
+        );
+
+        setPlanet(data);
       } catch (error) {
         console.error("Error:", error);
       } finally {
@@ -72,14 +97,17 @@ export function Planets() {
       }
     };
 
-    getPlanets();
+    if (id) getPlanet();
+  }, [id]);
+
+  useEffect(() => {
+    if (!id) getPlanets();
   }, [page]);
 
-  //planeta singular
   if (!!planet)
     return (
       <>
-        <Navbar />
+        <Navbar setSearch={handleSearch} search={search} />
         <Card
           maxWidth="80vw"
           sx={{
@@ -141,7 +169,7 @@ export function Planets() {
   else
     return (
       <>
-        <Navbar />
+        <Navbar setSearch={handleSearch} search={search} />
         <Container
           maxWidth="false"
           style={{
@@ -151,9 +179,12 @@ export function Planets() {
             justifyContent: "between",
           }}
         >
-           <Typography  variant= "title-lg" style={{ marginBottom: "1rem", fontSize: "2rem" }}>
-          Planets
-        </Typography>
+          <Typography
+            variant="title-lg"
+            style={{ marginBottom: "1rem", fontSize: "2rem" }}
+          >
+            Planets
+          </Typography>
           {loading && (
             <Grid container spacing={2}>
               {Array.from({ length: 10 }).map((_, index) => (
