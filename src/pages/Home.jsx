@@ -54,7 +54,6 @@ export const Home = () => {
           const { data } = await axios.get(
             `https://swapi.dev/api/people/?page=${page}`
           );
-
           setCharacters(data.results);
         }
       }
@@ -179,7 +178,7 @@ export const Home = () => {
                 Edited {selectedCharacter.edited}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Eye Color: {selectedCharacter.height}
+                Eye Color: {selectedCharacter.eye_color}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Height: {selectedCharacter.height}
